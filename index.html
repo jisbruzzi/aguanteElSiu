@@ -1,0 +1,145 @@
+<head>
+<script>
+function numeroDePadron(padronStr,nro){
+	var largo = padronStr.length
+	if(largo==0){
+		return Math.random()*10
+	}
+	
+	var nroPosta = ((largo-nro-1)%largo + largo) % largo
+	return Number(padronStr[nroPosta])
+}
+function calcularNumeroPrioridad(){
+	var padronStr = document.getElementById('f0').value
+	var suma = 0
+	for(i=1;i<5;i+=1){
+		var digitoPadron = numeroDePadron(padronStr,i)
+		var campo = document.getElementById("f"+i)
+		suma += Number(campo.value)*digitoPadron
+	}
+	var labura = document.getElementById('labura').checked
+	
+	if(labura)
+		return suma % 500 - numeroDePadron(padronStr,3)*10 - 50
+	else
+		return (suma+15) % 500 
+}
+function valorEsNro(valor){
+	return valor.length>0 && !isNaN(valor)
+}
+function camposCorrectos(){
+	var d = document.getElementById('resultado');
+	var valor = document.getElementById('f0').value
+	correctos = valorEsNro(valor)
+	
+	for(i=1;i<5;i+=1){
+		if(correctos)
+			correctos = valorEsNro(document.getElementById("f"+i).value)
+	}
+	
+	return correctos
+}
+
+function calcularPrioridad(){
+	var d = document.getElementById('resultado');
+	if(camposCorrectos()){
+		d.innerHTML=calcularNumeroPrioridad()
+		document.getElementById("botones1").style.display="block"
+	}else{
+		d.innerHTML="Cometio un error al llenar los campos, vamos que se puede"
+	}
+	
+}
+
+function joda(numeroDeJoda){
+	var numeroOriginal=Number(document.getElementById('resultado').innerHTML)
+	var offset = 0
+	switch(numeroDeJoda){
+		case 0: offset +=5
+		break
+		case 1: offset +=10
+		break
+		case 2: offset +=400
+		break
+		case 3: offset +=Math.random()*500
+		break
+		case 4: offset +=Math.random()*500
+		break
+		case 5: offset +=Math.random()*500
+		break
+		case 6: offset +=Math.random()*500
+		break
+		
+		case 7: offset +=0
+		break
+		case 8: offset +=0
+		break
+		case 9: offset +=500
+		break
+		case 10: offset -=3
+		break
+	}
+	if(!isNaN(numeroOriginal)){
+		var numeroFinal = numeroOriginal + offset
+		if(numeroFinal >600){
+			document.getElementById('labura').checked=false
+		}
+		if(numeroFinal <1000){
+			document.getElementById('resultado').innerHTML = numeroFinal
+		}else{
+			document.getElementById('resultado').innerHTML=frase()
+		}
+	}else{
+		document.getElementById('resultado').innerHTML=frase()
+	}
+	if(String(document.getElementById("botones2").style.display)===String("none")){
+		document.getElementById("botones2").style.display="block"
+	}else{
+		document.getElementById("botones3").style.display="block"
+	}
+
+}
+function frase(){
+	switch(Math.floor(Math.random()*6)){
+		case 0: return "nos vemos muchachos"
+		case 1: return "EPA"
+		case 2: return "LPMQTRMPLPMQTRMPPPPPPPPPPQTRPQTRPPP"
+		case 3: return "Alguien vio algo de carton?"
+		case 4: return "la vida del fiubense esta llena de emociones"
+		case 5: return "Que vivan Acero y Eva Peron"
+	}
+}
+</script>
+</head>
+<body>
+	<p>Calculadora de prioridad FIUBA 2C 2016</p>
+	<p>padron<input id="f0" type ="text"></input></p>
+	<p>numero de materias aprobadas: <input id="f1" type ="text"></input></p>
+	<p>numero de cuatrimestres cursados (sin contar CBC):<input id="f2" type ="text"></input></p>
+	<p>promedio sin aplazos: <input id="f3" type ="text"></input></p>
+	<p>promedio con aplazos: <input id="f4" type ="text"></input></p>
+	<p>presento certificado de trabajo: <input id="labura" type ="checkbox"></input></p>
+	<p><button type="button" onclick="calcularPrioridad()" type ="button">calcular prioridad</button></p>
+<p>
+Prioridad:<div id='resultado'>_</div>
+</p>
+	<div id="botones1" style="display:none;">
+	<p><button type="button" onclick="joda(0)" type ="button">Contarle a tus amigos</button></p>
+	<p><button type="button" onclick="joda(1)" type ="button">Contarle a tu vieja</button></p>
+	<p><button type="button" onclick="joda(2)" type ="button">Contarle a tu psicologo</button></p>
+	</div>
+	<div id="botones2" style="display:none;">
+	<p><button type="button" onclick="joda(3)" type ="button">Sin mail a la mesa de ayuda</button></p>
+	<p><button type="button" onclick="joda(4)" type ="button">Mail de agradecimiento a la mesa de ayuda</button></p>
+	<p><button type="button" onclick="joda(5)" type ="button">Mail a la mesa de ayuda</button></p>
+	<p><button type="button" onclick="joda(6)" type ="button">Mail violento a la mesa de ayuda</button></p>
+	</div>
+	<div id="botones3" style="display:none;">
+	<p><button type="button" onclick="joda(7)" type ="button">Llego al hall!</button></p>
+	<p><button type="button" onclick="joda(8)" type ="button">Llego a la escalera!</button></p>
+	<p><button type="button" onclick="joda(9)" type ="button">Llego a Fontana!</button></p>
+	<p><button type="button" onclick="joda(10)" type ="button">Llego a Acero!</button></p>
+	</div>
+	
+
+</body>
