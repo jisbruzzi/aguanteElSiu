@@ -80,15 +80,19 @@ function joda(numeroDeJoda){
 		case 10: offset -=3
 		break
 	}
+	if(numeroDeJoda>=3 && numeroDeJoda<=6){
+		numeroOriginal = Math.random()*150
+	}
+		
 	if(!isNaN(numeroOriginal)){
 		var numeroFinal = numeroOriginal + offset
 		if(numeroDeJoda>=3 && numeroDeJoda<=6){
 			numeroFinal = Math.random()*150
 		}
-		if(numeroFinal >600){
+		if(numeroFinal >700){
 			document.getElementById('labura').checked=false
 		}
-		if(numeroFinal <1000){
+		if(numeroFinal <1500){
 			document.getElementById('resultado').innerHTML =Math.floor(numeroFinal)
 		}else{
 			document.getElementById('resultado').innerHTML=frase()
